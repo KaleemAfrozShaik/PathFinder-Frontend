@@ -1,31 +1,54 @@
 import { Link } from "react-router-dom";
 import { FaTwitter, FaInstagram, FaGithub } from "react-icons/fa";
 
+// Footer navigation links
+const navLinks = [
+  { to: "/about", label: "About Us" },
+  { to: "/contact", label: "Contact" },
+  { to: "/privacy-policy", label: "Privacy Policy" },
+  { to: "/terms", label: "Terms of Service" },
+];
+
+// Social media links
+const socialLinks = [
+  { href: "https://twitter.com", icon: <FaTwitter />, className: "hover:text-blue-500" },
+  { href: "https://instagram.com", icon: <FaInstagram />, className: "hover:text-pink-500" },
+  { href: "https://github.com", icon: <FaGithub />, className: "hover:text-gray-800" },
+];
+
+const linkClass = "transition hover:text-blue-500";
+
 const Footer = () => {
   return (
-    <footer className="bg-white text-gray-600 border-t border-gray-200 py-8 ">
+    <footer className="bg-white text-gray-600 border-t border-gray-200 py-8">
       <div className="container mx-auto px-4 flex flex-col items-center space-y-4">
+        {/* Navigation Links */}
         <div className="flex flex-wrap justify-center gap-10">
-          <Link to="/about" className="hover:text-blue-500 transition">About Us</Link>
-          <Link to="/contact" className="hover:text-blue-500 transition">Contact</Link>
-          <Link to="/privacy-policy" className="hover:text-blue-500 transition">Privacy Policy</Link>
-          <Link to="/terms" className="hover:text-blue-500 transition">Terms of Service</Link>
+          {navLinks.map((link) => (
+            <Link key={link.to} to={link.to} className={linkClass}>
+              {link.label}
+            </Link>
+          ))}
         </div>
 
+        {/* Social Media Icons */}
         <div className="flex justify-center space-x-4 text-gray-500">
-          <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="hover:text-blue-500 transition">
-            <FaTwitter />
-          </a>
-          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-pink-500 transition">
-            <FaInstagram />
-          </a>
-          <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="hover:text-gray-800 transition">
-            <FaGithub />
-          </a>
+          {socialLinks.map((social, idx) => (
+            <a
+              key={idx}
+              href={social.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`transition ${social.className}`}
+            >
+              {social.icon}
+            </a>
+          ))}
         </div>
 
+        {/* Copyright */}
         <p className="text-center text-gray-400 pt-2">
-          © {new Date().getFullYear()} PathFinder. All rights reserved.
+          &copy; {new Date().getFullYear()} PathFinder. All rights reserved.
         </p>
       </div>
     </footer>

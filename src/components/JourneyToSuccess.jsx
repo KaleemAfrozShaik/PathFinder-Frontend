@@ -1,5 +1,4 @@
-
-
+// Features data outside the component for clarity
 const features = [
   {
     title: "Personalized Career Paths",
@@ -30,9 +29,21 @@ const features = [
   },
 ];
 
+// Feature card subcomponent
+const FeatureCard = ({ icon, title, description }) => (
+  <div className="flex flex-1 flex-col gap-3 rounded-lg border border-[#dbe0e6] bg-white p-4">
+    <div className="text-[#111418]">{icon}</div>
+    <div className="flex flex-col gap-1">
+      <h2 className="text-[#111418] text-base font-bold leading-tight">{title}</h2>
+      <p className="text-[#60758a] text-sm font-normal leading-normal">{description}</p>
+    </div>
+  </div>
+);
+
 const JourneyToSuccess = () => {
   return (
     <div className="flex flex-col gap-10 px-4 py-10 @container">
+      {/* Headline and description */}
       <div className="flex flex-col gap-4">
         <h1 className="text-[#111418] tracking-light text-[32px] font-bold leading-tight @[480px]:text-4xl @[480px]:font-black @[480px]:leading-tight @[480px]:tracking-[-0.033em] max-w-[720px]">
           Your Journey to Success
@@ -41,21 +52,10 @@ const JourneyToSuccess = () => {
           PathFinder provides the tools and resources you need to navigate your career path effectively.
         </p>
       </div>
-
+      {/* Features grid */}
       <div className="grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-3">
         {features.map((feature, index) => (
-          <div
-            key={index}
-            className="flex flex-1 flex-col gap-3 rounded-lg border border-[#dbe0e6] bg-white p-4"
-          >
-            <div className="text-[#111418]">{feature.icon}</div>
-            <div className="flex flex-col gap-1">
-              <h2 className="text-[#111418] text-base font-bold leading-tight">{feature.title}</h2>
-              <p className="text-[#60758a] text-sm font-normal leading-normal">
-                {feature.description}
-              </p>
-            </div>
-          </div>
+          <FeatureCard key={index} {...feature} />
         ))}
       </div>
     </div>

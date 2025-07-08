@@ -1,5 +1,33 @@
 import React from 'react';
 
+// Dummy Data
+const savedRoadmaps = [
+  {
+    title: "Product Management Roadmap",
+    desc: "Learn the skills to become a Product Manager",
+    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBDtpg0FCI7...",
+  },
+  {
+    title: "Data Science Roadmap",
+    desc: "Learn the skills to become a Data Scientist",
+    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCDKsOoQVK...",
+  },
+];
+
+// Roadmap Card subcomponent
+const RoadmapCard = ({ title, desc, img }) => (
+  <div className="flex flex-col gap-2 rounded-lg w-60 shrink-0">
+    <div
+      className="w-full h-40 bg-center bg-no-repeat bg-cover rounded-lg"
+      style={{ backgroundImage: `url(${img})` }}
+    ></div>
+    <div>
+      <p className="text-[#111418] text-base font-medium">{title}</p>
+      <p className="text-[#60758a] text-sm">{desc}</p>
+    </div>
+  </div>
+);
+
 const Profile = () => {
   const handleEditProfile = () => {
     // Add your logic to navigate or open edit modal
@@ -14,7 +42,6 @@ const Profile = () => {
   return (
     <div className="px-40 flex flex-1 justify-center py-5">
       <div className="layout-content-container flex flex-col max-w-[960px] flex-1">
-
         {/* Profile Header */}
         <div className="flex p-4">
           <div className="flex w-full flex-col gap-4 sm:flex-row sm:justify-between sm:items-center">
@@ -32,7 +59,6 @@ const Profile = () => {
                 <p className="text-[#60758a] text-base font-normal leading-normal">Progress: 75%</p>
               </div>
             </div>
-
             <div className="flex gap-2 mt-4 sm:mt-0">
               <button
                 onClick={handleEditProfile}
@@ -49,45 +75,16 @@ const Profile = () => {
             </div>
           </div>
         </div>
-
         {/* Saved Roadmaps */}
         <h2 className="text-[#111418] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Saved Roadmaps</h2>
         <div className="flex overflow-x-auto gap-3 px-4 pb-4">
-            {savedRoadmaps.map((roadmap, index) => (
+          {savedRoadmaps.map((roadmap, index) => (
             <RoadmapCard key={index} {...roadmap} />
           ))}
-          </div>
+        </div>
       </div>
     </div>
   );
 };
-
-// Roadmap Card
-const RoadmapCard = ({ title, desc, img }) => (
-  <div className="flex flex-col gap-2 rounded-lg w-60 shrink-0">
-    <div
-      className="w-full h-40 bg-center bg-no-repeat bg-cover rounded-lg"
-      style={{ backgroundImage: `url(${img})` }}
-    ></div>
-    <div>
-      <p className="text-[#111418] text-base font-medium">{title}</p>
-      <p className="text-[#60758a] text-sm">{desc}</p>
-    </div>
-  </div>
-);
-
-// Dummy Data
-const savedRoadmaps = [
-  {
-    title: "Product Management Roadmap",
-    desc: "Learn the skills to become a Product Manager",
-    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBDtpg0FCI7...",
-  },
-  {
-    title: "Data Science Roadmap",
-    desc: "Learn the skills to become a Data Scientist",
-    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCDKsOoQVK...",
-  },
-];
 
 export default Profile;

@@ -2,8 +2,9 @@ import { Link } from "react-router-dom";
 import JourneyToSuccess from "../components/JourneyToSuccess";
 import SuccessStories from "../components/SuccessStories";
 import GettingStarted from "../components/GettingStarted";
-import image from "../assets/HImage.jpg"; // Adjust the import path as necessary  
+import image from "../assets/HImage.jpg"; // Adjust the import path as necessary
 
+// CTA buttons data
 const ctaButtons = [
   {
     label: "Explore Paths",
@@ -41,7 +42,6 @@ const Home = () => {
                     PathFinder helps students explore personalized career paths, follow curated skill roadmaps, and connect with mentors.
                   </h2>
                 </div>
-
                 {/* CTA Buttons - mapped */}
                 <div className="flex-wrap gap-3 flex justify-center">
                   {ctaButtons.map((btn, index) => (
@@ -59,7 +59,7 @@ const Home = () => {
           </div>
           <JourneyToSuccess />
           <SuccessStories />
-          <GettingStarted/>
+          <GettingStarted />
         </div>
       </div>
     </div>
