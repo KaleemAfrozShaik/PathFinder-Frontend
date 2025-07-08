@@ -5,7 +5,7 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   // Mock user login status (Replace with real auth logic later)
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // set to false to simulate logged out
+  const [isLoggedIn, setIsLoggedIn] = useState(true); // set to false to simulate logged out
 
   return (
     <header className="bg-white border-b border-[#f0f2f5] px-4 py-3 md:px-10">

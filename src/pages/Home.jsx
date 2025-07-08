@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import JourneyToSuccess from "../components/JourneyToSuccess";
 import SuccessStories from "../components/SuccessStories";
 import GettingStarted from "../components/GettingStarted";
+import image from "../assets/HImage.jpg"; // Adjust the import path as necessary  
 
 const ctaButtons = [
   {
@@ -27,17 +28,16 @@ const Home = () => {
             <div className="@[480px]:p-4">
               <div
                 className="flex min-h-[480px] flex-col gap-6 bg-cover bg-center bg-no-repeat @[480px]:gap-8 @[480px]:rounded-lg items-center justify-center p-4"
-                style={{
-                  backgroundImage:
-                    'linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.4)), url("https://lh3.googleusercontent.com/aida-public/AB6AXuBM43FqMtYjvDFvZNz5b5tSRJlg-kJKNHF-ZdIMshzBfT0EYGAW1tVTQfrZBz36QCYwPAnVxWi7mwFpK-8Vj7QqAAqxfjWqxQhXouJKrxZC7zlGLjaDGA_kj1IbGQW8d3DSr4mteMAHIWE33WmbNipcbLuqQERLtV84Mmji-l2JgEZiNzXnzv5EF04QWumXnSBB-2JYp8NK2dFkzxf9K1QqvM8OCzcydgvkt87-gmKwd5zfy0w2KrDZm77IsUvmw9ECmsrw9a4UJG4")',
-                }}
+                // style={{
+                //   backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.3)), url(${image})`,
+                // }}
               >
                 {/* Hero Text */}
-                <div className="flex flex-col gap-2 text-center">
-                  <h1 className="text-white text-4xl font-black leading-tight tracking-[-0.033em] @[480px]:text-5xl @[480px]:font-black @[480px]:leading-tight @[480px]:tracking-[-0.033em]">
+                <div className="flex flex-col gap-2 text-center pt-20">
+                  <h1 className="text-black text-4xl font-black leading-tight tracking-[-0.033em] @[480px]:text-5xl @[480px]:font-black @[480px]:leading-tight @[480px]:tracking-[-0.033em]">
                     Discover Your Ideal Career Path
                   </h1>
-                  <h2 className="text-white text-sm font-normal leading-normal @[480px]:text-base @[480px]:font-normal @[480px]:leading-normal">
+                  <h2 className="text-black text-sm font-normal leading-normal @[480px]:text-base @[480px]:font-normal @[480px]:leading-normal">
                     PathFinder helps students explore personalized career paths, follow curated skill roadmaps, and connect with mentors.
                   </h2>
                 </div>
