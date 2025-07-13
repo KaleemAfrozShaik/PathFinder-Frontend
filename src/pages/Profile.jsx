@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 // Dummy Data
 const savedRoadmaps = [
@@ -30,8 +31,7 @@ const RoadmapCard = ({ title, desc, img }) => (
 
 const Profile = () => {
   const handleEditProfile = () => {
-    // Add your logic to navigate or open edit modal
-    alert("Edit Profile clicked");
+    navigate("/edit-profile");
   };
 
   const handleLogout = () => {
@@ -60,12 +60,12 @@ const Profile = () => {
               </div>
             </div>
             <div className="flex gap-2 mt-4 sm:mt-0">
-              <button
+              <Link to="/edit-profile"
                 onClick={handleEditProfile}
                 className="px-4 py-2 rounded-lg bg-blue-600 text-white text-sm font-medium hover:bg-blue-700"
               >
                 Edit Profile
-              </button>
+              </Link>
               <button
                 onClick={handleLogout}
                 className="px-4 py-2 rounded-lg bg-red-500 text-white text-sm font-medium hover:bg-red-600"

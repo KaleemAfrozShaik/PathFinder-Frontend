@@ -75,12 +75,12 @@ const careerData = {
 const RoadmapStep = ({ idx, step, checked, onToggle }) => (
   <React.Fragment>
     <div className="flex flex-col items-center gap-1 pt-3">
-      <input
+      {/* <input
         type="checkbox"
         checked={checked}
         onChange={() => onToggle(idx)}
         className="w-5 h-5 accent-green-600 cursor-pointer"
-      />
+      /> */}
       <div className="w-[1.5px] bg-[#dbe0e6] h-2 grow"></div>
     </div>
     <div className="flex flex-col py-3">

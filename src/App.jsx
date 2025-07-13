@@ -11,6 +11,8 @@ import Terms from './pages/TermsConditions';
 import Layout from './components/Layout';
 import CareerPathDetails from './pages/CareerPathDetails';
 import Profile from './pages/Profile';
+import ChatPlaceholder from './pages/ChatPlaceholder';
+import EditProfile from './components/EditProfile';
 
 
 const App = () => {
@@ -23,6 +25,8 @@ const App = () => {
           <Route path="/career-paths/:careerId" element={<CareerPathDetails />} />
           <Route path="/mentorship" element={<Mentorship />} />
           <Route path="/profile" element={<Profile/>} />
+          <Route path="/edit-profile" element={<EditProfile />} />
+          <Route path="/chat/:mentorId" element={<ChatPlaceholder />} />
           <Route path="/about" element={<AboutUs />} />
           <Route path="/contact" element={<ContactUs />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
