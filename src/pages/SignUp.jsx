@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-
+import axios from "axios";
 const GoogleButton = () => (
   <button className="flex w-full cursor-pointer items-center justify-center rounded-lg h-10 px-4 bg-[#f0f2f5] text-[#111418] gap-2 text-sm font-bold">
     <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
@@ -12,21 +12,54 @@ const GoogleButton = () => (
 
 const Signup = () => {
   const [formData, setFormData] = useState({
-    name: "",
+    fullName: "",
     email: "",
     password: "",
-    role: "student", // default role
+    role: "student",
     bio: "",
   });
+  const [profilePicture, setProfilePicture] = useState(null);
+  const [preview, setPreview] = useState(null);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setProfilePicture(file);
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => setPreview(reader.result);
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // TODO: Send `formData` to your backend via axios/fetch
-    console.log("Form submitted:", formData);
+
+    try {
+      const payload = new FormData();
+      payload.append("name", formData.fullName);
+      payload.append("email", formData.email);
+      payload.append("password", formData.password);
+      payload.append("role", formData.role);
+      payload.append("bio", formData.bio);
+      if (profilePicture) {
+        payload.append("profilePicture", profilePicture); // ✅ correctly named
+      }
+
+      const res = await axios.post("http://localhost:8000/api/v1/users/register", payload, {
+        headers: { "Content-Type": "multipart/form-data" },
+        withCredentials: true,
+      });
+
+      console.log("Signup successful!");
+    } catch (err) {
+      console.log(err);
+      
+      alert(err?.response?.data?.message || "Something went wrong");
+    }
   };
 
   return (
@@ -45,16 +78,17 @@ const Signup = () => {
 
         <p className="text-[#60758a] text-sm text-center pb-3">or</p>
 
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4 px-4">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4 px-4" encType="multipart/form-data">
           <label className="flex flex-col w-full">
             <p className="text-[#111418] text-base font-medium pb-2">Name</p>
             <input
               type="text"
-              name="name"
-              value={formData.name}
+              name="fullName"
+              value={formData.fullName}
               onChange={handleChange}
               placeholder="Enter your name"
-              className="rounded-lg border border-[#dbe0e6] bg-white h-14 px-4 text-base placeholder:text-[#60758a] focus:outline-none"
+              className="rounded-lg border border-[#dbe0e6] h-14 px-4"
+              required
             />
           </label>
 
@@ -66,7 +100,8 @@ const Signup = () => {
               value={formData.email}
               onChange={handleChange}
               placeholder="Enter your email"
-              className="rounded-lg border border-[#dbe0e6] bg-white h-14 px-4 text-base placeholder:text-[#60758a] focus:outline-none"
+              className="rounded-lg border border-[#dbe0e6] h-14 px-4"
+              required
             />
           </label>
 
@@ -78,7 +113,8 @@ const Signup = () => {
               value={formData.password}
               onChange={handleChange}
               placeholder="Create a password"
-              className="rounded-lg border border-[#dbe0e6] bg-white h-14 px-4 text-base placeholder:text-[#60758a] focus:outline-none"
+              className="rounded-lg border border-[#dbe0e6] h-14 px-4"
+              required
             />
           </label>
 
@@ -88,7 +124,7 @@ const Signup = () => {
               name="role"
               value={formData.role}
               onChange={handleChange}
-              className="rounded-lg border border-[#dbe0e6] bg-white h-14 px-4 text-base text-[#111418] focus:outline-none"
+              className="rounded-lg border border-[#dbe0e6] h-14 px-4"
             >
               <option value="student">Student</option>
               <option value="mentor">Mentor</option>
@@ -104,8 +140,26 @@ const Signup = () => {
               rows={4}
               maxLength={500}
               placeholder="Tell us something about yourself"
-              className="rounded-lg border border-[#dbe0e6] bg-white px-4 py-2 text-base placeholder:text-[#60758a] focus:outline-none resize-none"
+              className="rounded-lg border border-[#dbe0e6] px-4 py-2 resize-none"
             />
+          </label>
+
+          <label className="flex flex-col w-full">
+            <p className="text-[#111418] text-base font-medium pb-2">Profile Picture</p>
+            <input
+              type="file"
+              name="profilePicture" // ✅ this must match backend multer field
+              accept="image/*"
+              onChange={handleFileChange}
+              className="text-sm"
+            />
+            {preview && (
+              <img
+                src={preview}
+                alt="Preview"
+                className="w-24 h-24 mt-2 rounded-full object-cover border"
+              />
+            )}
           </label>
 
           <button

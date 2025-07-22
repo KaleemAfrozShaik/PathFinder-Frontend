@@ -1,86 +1,97 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-
-// Dummy Data
-const savedRoadmaps = [
-  {
-    title: "Product Management Roadmap",
-    desc: "Learn the skills to become a Product Manager",
-    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBDtpg0FCI7...",
-  },
-  {
-    title: "Data Science Roadmap",
-    desc: "Learn the skills to become a Data Scientist",
-    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCDKsOoQVK...",
-  },
-];
-
-// Roadmap Card subcomponent
-const RoadmapCard = ({ title, desc, img }) => (
-  <div className="flex flex-col gap-2 rounded-lg w-60 shrink-0">
-    <div
-      className="w-full h-40 bg-center bg-no-repeat bg-cover rounded-lg"
-      style={{ backgroundImage: `url(${img})` }}
-    ></div>
-    <div>
-      <p className="text-[#111418] text-base font-medium">{title}</p>
-      <p className="text-[#60758a] text-sm">{desc}</p>
-    </div>
-  </div>
-);
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
+import RoadmapCard from '../components/RoadmapCard';
 
 const Profile = () => {
-  const handleEditProfile = () => {
-    navigate("/edit-profile");
+  const [user, setUser] = useState(null);
+  const [savedRoadmaps, setSavedRoadmaps] = useState([]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const res = await axios.get("http://localhost:8000/api/v1/users/me", {
+          withCredentials: true,
+        });
+        setUser(res.data.data);
+      } catch (err) {
+        console.error("Error fetching user", err);
+        navigate("/login");
+      }
+    };
+
+    const fetchSavedPaths = async () => {
+      try {
+        const res = await axios.get("http://localhost:8000/api/v1/users/saved-paths", {
+          withCredentials: true,
+        });
+        setSavedRoadmaps(res.data.data || []);
+      } catch (err) {
+        console.error("Error fetching saved roadmaps", err);
+      }
+    };
+
+    fetchUser();
+    fetchSavedPaths();
+  }, [navigate]);
+
+  const handleLogout = async () => {
+    try {
+      await axios.post("http://localhost:8000/api/v1/users/logout", {}, {
+        withCredentials: true,
+      });
+      navigate("/login");
+    } catch (err) {
+      alert("Logout failed");
+      console.error(err);
+    }
   };
 
-  const handleLogout = () => {
-    // Add your logout logic here (clear auth tokens, redirect, etc.)
-    alert("Logged out");
-  };
+  if (!user) return <div className="p-10 text-center text-gray-600">Loading...</div>;
 
   return (
     <div className="px-40 flex flex-1 justify-center py-5">
       <div className="layout-content-container flex flex-col max-w-[960px] flex-1">
-        {/* Profile Header */}
         <div className="flex p-4">
           <div className="flex w-full flex-col gap-4 sm:flex-row sm:justify-between sm:items-center">
             <div className="flex gap-4">
-              <div
-                className="bg-center bg-no-repeat aspect-square bg-cover rounded-full min-h-32 w-32"
-                style={{
-                  backgroundImage:
-                    'url("https://lh3.googleusercontent.com/aida-public/AB6AXuBAJ69HnChmZWmKmzKjngC-tCWyiwY2Sob2wZ_5jvXZ32KdJPBVU7CzkkSnJ-GaRjzNi_FvZcFfhlwk75AkQnzX09CQDtYu_CqE5SRCIN-4jIpilSLCHlD1MLFkzW2Y4le2PxnyzX3nZnev25T9Uidm4awGjf7VgWToZhokbSULriVO7IdEuUHilqkBk05w1B-VfQblnCSPZSWXr2WL1cScAGp4B8rqfQbsbrIM8PKdY2S4k3lQMNR6BjHICSPv58vB2N-yQO7th-c")',
-                }}
-              ></div>
-              <div className="flex flex-col justify-center">
-                <p className="text-[#111418] text-[22px] font-bold leading-tight tracking-[-0.015em]">Sophia Clark</p>
-                <p className="text-[#60758a] text-base font-normal leading-normal">sophia.clark@email.com</p>
-                <p className="text-[#60758a] text-base font-normal leading-normal">Progress: 75%</p>
+              <img
+                src={user.profilePicture || "https://profilePictures.githubusercontent.com/u/17099752?v=4"}
+                alt="Profile"
+                className="w-24 h-24 rounded-full border-2"
+              />
+              <div>
+                <h2 className="text-2xl font-semibold">{user.name}</h2>
+                <p className="text-gray-600">{user.email}</p>
+                <p className="text-gray-500 text-sm">{user.bio || "No bio added"}</p>
               </div>
             </div>
-            <div className="flex gap-2 mt-4 sm:mt-0">
-              <Link to="/edit-profile"
-                onClick={handleEditProfile}
-                className="px-4 py-2 rounded-lg bg-blue-600 text-white text-sm font-medium hover:bg-blue-700"
-              >
+            <div className="flex gap-4">
+              <Link to="/edit-profile" className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md">
                 Edit Profile
               </Link>
               <button
                 onClick={handleLogout}
-                className="px-4 py-2 rounded-lg bg-red-500 text-white text-sm font-medium hover:bg-red-600"
+                className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md"
               >
                 Logout
               </button>
             </div>
           </div>
         </div>
-        {/* Saved Roadmaps */}
-        <h2 className="text-[#111418] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Saved Roadmaps</h2>
-        <div className="flex overflow-x-auto gap-3 px-4 pb-4">
-          {savedRoadmaps.map((roadmap, index) => (
-            <RoadmapCard key={index} {...roadmap} />
-          ))}
+
+        <hr className="my-4" />
+
+        <h3 className="text-xl font-semibold mb-4">Saved Roadmaps</h3>
+        <div className="flex flex-wrap gap-4">
+          {savedRoadmaps.length > 0 ? (
+            savedRoadmaps.map((roadmap) => (
+              <RoadmapCard key={roadmap._id} roadmap={roadmap} />
+            ))
+          ) : (
+            <p className="text-gray-500">No saved roadmaps yet.</p>
+          )}
         </div>
       </div>
     </div>

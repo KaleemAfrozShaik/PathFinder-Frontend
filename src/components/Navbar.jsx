@@ -1,12 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
-// Logo as a subcomponent for clarity
+// Logo component
 const Logo = () => (
   <div className="flex items-center gap-3 text-[#111418]">
     <div className="size-5 text-blue-600">
       <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path fillRule="evenodd" clipRule="evenodd" d="M24 4H6V17.3333V30.6667H24V44H42V30.6667V17.3333H24V4Z" fill="currentColor"></path>
+        <path
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M24 4H6V17.3333V30.6667H24V44H42V30.6667V17.3333H24V4Z"
+          fill="currentColor"
+        />
       </svg>
     </div>
     <h2 className="text-lg font-bold tracking-tight">
@@ -15,20 +21,38 @@ const Logo = () => (
   </div>
 );
 
-// Reusable link style
 const navLinkClass = "text-sm font-medium text-[#111418]";
+const placeholderAvatar = "https://cdn-icons-png.flaticon.com/512/149/149071.png";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  // TODO: Replace with real auth logic
-  const [isLoggedIn] = useState(true); // Set to false to simulate logged out
+  const [user, setUser] = useState(null);
+
+  // Fetch logged-in user
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const res = await axios.get("http://localhost:8000/api/v1/users/me", {
+          withCredentials: true,
+        });
+        setUser(res.data.data);
+      } catch (err) {
+        setUser(null);
+      }
+    };
+
+    fetchUser();
+  }, []);
+
+  const isLoggedIn = !!user;
+  const profileImg = user?.profilePicture || placeholderAvatar;
 
   return (
     <header className="bg-white border-b border-[#f0f2f5] px-4 py-3 md:px-10">
       <div className="flex items-center justify-between">
         <Logo />
 
-        {/* Hamburger icon for mobile */}
+        {/* Hamburger */}
         <button
           onClick={() => setIsOpen(!isOpen)}
           className="md:hidden text-gray-600 focus:outline-none"
@@ -43,19 +67,20 @@ const Navbar = () => {
           </svg>
         </button>
 
-        {/* Desktop Nav Links */}
+        {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-10">
           <div className="flex items-center gap-8">
             <Link className={navLinkClass} to="/">Home</Link>
             <Link className={navLinkClass} to="/career-paths">Career Paths</Link>
             <Link className={navLinkClass} to="/mentorship">Mentorship</Link>
           </div>
+
           {isLoggedIn ? (
             <Link to="/profile" className="flex items-center gap-2">
               <img
-                src="https://i.pravatar.cc/40?img=3"
+                src={profileImg}
                 alt="Profile"
-                className="w-9 h-9 rounded-full border border-gray-300"
+                className="w-9 h-9 rounded-full border border-gray-300 object-cover"
               />
             </Link>
           ) : (
@@ -83,6 +108,7 @@ const Navbar = () => {
           <Link className={navLinkClass} to="/" onClick={() => setIsOpen(false)}>Home</Link>
           <Link className={navLinkClass} to="/roadmaps" onClick={() => setIsOpen(false)}>Roadmaps</Link>
           <Link className={navLinkClass} to="/mentorship" onClick={() => setIsOpen(false)}>Mentorship</Link>
+
           {isLoggedIn ? (
             <Link
               to="/profile"
@@ -90,9 +116,9 @@ const Navbar = () => {
               onClick={() => setIsOpen(false)}
             >
               <img
-                src="https://i.pravatar.cc/40?img=3"
+                src={profileImg}
                 alt="Profile"
-                className="w-8 h-8 rounded-full border border-gray-300"
+                className="w-8 h-8 rounded-full border border-gray-300 object-cover"
               />
               <span className={navLinkClass}>My Profile</span>
             </Link>
