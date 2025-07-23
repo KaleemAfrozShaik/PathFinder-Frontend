@@ -106,7 +106,7 @@ const Navbar = () => {
       {isOpen && (
         <nav className="md:hidden flex flex-col items-start gap-4 mt-4 px-2">
           <Link className={navLinkClass} to="/" onClick={() => setIsOpen(false)}>Home</Link>
-          <Link className={navLinkClass} to="/roadmaps" onClick={() => setIsOpen(false)}>Roadmaps</Link>
+          <Link className={navLinkClass} to="/career-paths" onClick={() => setIsOpen(false)}>Roadmaps</Link>
           <Link className={navLinkClass} to="/mentorship" onClick={() => setIsOpen(false)}>Mentorship</Link>
 
           {isLoggedIn ? (
