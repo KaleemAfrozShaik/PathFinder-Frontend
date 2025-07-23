@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useAuth } from "../context/AuthContext";
 
 // Google Sign-In Button subcomponent
 const GoogleButton = () => (
@@ -17,6 +18,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const { fetchUser } = useAuth();
 
   const handleLogin = async () => {
     setLoading(true);
@@ -26,6 +28,7 @@ const Login = () => {
         { email, password },
         { withCredentials: true }
       );
+      await fetchUser();
       navigate("/profile");
     } catch (err) {
       alert(err?.response?.data?.message || "Login failed");

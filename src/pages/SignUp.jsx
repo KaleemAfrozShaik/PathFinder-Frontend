@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 const GoogleButton = () => (
   <button className="flex w-full cursor-pointer items-center justify-center rounded-lg h-10 px-4 bg-[#f0f2f5] text-[#111418] gap-2 text-sm font-bold">
@@ -11,6 +11,7 @@ const GoogleButton = () => (
 );
 
 const Signup = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -46,14 +47,14 @@ const Signup = () => {
       payload.append("role", formData.role);
       payload.append("bio", formData.bio);
       if (profilePicture) {
-        payload.append("profilePicture", profilePicture); // ✅ correctly named
+        payload.append("profilePicture", profilePicture); 
       }
 
       const res = await axios.post("http://localhost:8000/api/v1/users/register", payload, {
         headers: { "Content-Type": "multipart/form-data" },
         withCredentials: true,
       });
-
+      navigate("/login");
       console.log("Signup successful!");
     } catch (err) {
       console.log(err);

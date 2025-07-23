@@ -13,29 +13,29 @@ import CareerPathDetails from './pages/CareerPathDetails';
 import Profile from './pages/Profile';
 import ChatPlaceholder from './pages/ChatPlaceholder';
 import EditProfile from './components/EditProfile';
+import RegisterMentor from './pages/RegisterMentor';
 
 
 const App = () => {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route element={<Layout />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/career-paths" element={<CareerPaths />} />
-          <Route path="/career-paths/:careerId" element={<CareerPathDetails />} />
-          <Route path="/mentorship" element={<Mentorship />} />
-          <Route path="/profile" element={<Profile/>} />
-          <Route path="/edit-profile" element={<EditProfile />} />
-          <Route path="/chat/:mentorId" element={<ChatPlaceholder />} />
-          <Route path="/about" element={<AboutUs />} />
-          <Route path="/contact" element={<ContactUs />} />
-          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-          <Route path="/terms" element={<Terms />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<SignUp />} />
-          </Route>
-      </Routes>
-    </BrowserRouter>
+    <Routes>
+      <Route element={<Layout />}>
+        <Route path="/" element={<Home />} />
+        <Route path="/career-paths" element={<CareerPaths />} />
+        <Route path="/career-paths/:careerId" element={<CareerPathDetails />} />
+        <Route path="/mentorship" element={<Mentorship />} />
+        <Route path="/register-mentor" element={<RegisterMentor />} />
+        <Route path="/profile" element={<Profile/>} />
+        <Route path="/edit-profile" element={<EditProfile />} />
+        <Route path="/mentorship/request/:mentorId" element={<ChatPlaceholder />} />
+        <Route path="/about" element={<AboutUs />} />
+        <Route path="/contact" element={<ContactUs />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/terms" element={<Terms />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<SignUp />} />
+        </Route>
+    </Routes>
   );
 };
 

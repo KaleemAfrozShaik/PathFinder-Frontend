@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import RoadmapCard from '../components/RoadmapCard';
+import { AuthContext } from '../context/AuthContext';
 
 const Profile = () => {
-  const [user, setUser] = useState(null);
   const [savedRoadmaps, setSavedRoadmaps] = useState([]);
   const navigate = useNavigate();
+
+  const { user, setUser } = useContext(AuthContext); // ✅ consume global user
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -14,7 +16,7 @@ const Profile = () => {
         const res = await axios.get("http://localhost:8000/api/v1/users/me", {
           withCredentials: true,
         });
-        setUser(res.data.data);
+        setUser(res.data.data); // ✅ set global user
       } catch (err) {
         console.error("Error fetching user", err);
         navigate("/login");
@@ -34,13 +36,14 @@ const Profile = () => {
 
     fetchUser();
     fetchSavedPaths();
-  }, [navigate]);
+  }, [navigate, setUser]);
 
   const handleLogout = async () => {
     try {
       await axios.post("http://localhost:8000/api/v1/users/logout", {}, {
         withCredentials: true,
       });
+      setUser(null); 
       navigate("/login");
     } catch (err) {
       alert("Logout failed");

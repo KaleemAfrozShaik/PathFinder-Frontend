@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import { useAuth } from "../context/AuthContext";
 
 // Logo component
 const Logo = () => (
@@ -26,24 +26,7 @@ const placeholderAvatar = "https://cdn-icons-png.flaticon.com/512/149/149071.png
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [user, setUser] = useState(null);
-
-  // Fetch logged-in user
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const res = await axios.get("http://localhost:8000/api/v1/users/me", {
-          withCredentials: true,
-        });
-        setUser(res.data.data);
-      } catch (err) {
-        setUser(null);
-      }
-    };
-
-    fetchUser();
-  }, []);
-
+  const { user } = useAuth();
   const isLoggedIn = !!user;
   const profileImg = user?.profilePicture || placeholderAvatar;
 
@@ -75,7 +58,7 @@ const Navbar = () => {
             <Link className={navLinkClass} to="/mentorship">Mentorship</Link>
           </div>
 
-          {isLoggedIn ? (
+          {user ? (
             <Link to="/profile" className="flex items-center gap-2">
               <img
                 src={profileImg}
@@ -109,19 +92,16 @@ const Navbar = () => {
           <Link className={navLinkClass} to="/career-paths" onClick={() => setIsOpen(false)}>Roadmaps</Link>
           <Link className={navLinkClass} to="/mentorship" onClick={() => setIsOpen(false)}>Mentorship</Link>
 
-          {isLoggedIn ? (
-            <Link
-              to="/profile"
-              className="flex items-center gap-2 mt-2"
-              onClick={() => setIsOpen(false)}
-            >
-              <img
-                src={profileImg}
-                alt="Profile"
-                className="w-8 h-8 rounded-full border border-gray-300 object-cover"
-              />
-              <span className={navLinkClass}>My Profile</span>
-            </Link>
+          {user ? (
+            <div className="flex items-center gap-3">
+              <Link to="/profile">
+                <img
+                  src={profileImg}
+                  alt="Profile"
+                  className="w-9 h-9 rounded-full border border-gray-300 object-cover"
+                />
+              </Link>
+            </div>
           ) : (
             <>
               <Link
