@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
+import { useEffect } from "react";
 
 // Google Sign-In Button subcomponent
 const GoogleButton = () => (
@@ -18,7 +19,14 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const { fetchUser } = useAuth();
+  const { user, fetchUser } = useAuth();
+
+  useEffect(() => {
+    if (user) {
+      navigate("/"); // redirect to homepage
+    }
+  }, [user, navigate]);
+
 
   const handleLogin = async () => {
     setLoading(true);
