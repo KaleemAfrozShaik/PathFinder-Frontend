@@ -1,94 +1,100 @@
+
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
+import RoadmapStep from "../components/RoadmapStep";
 
-// Static roadmap data outside the component
 const careerData = {
   "web-developer": {
-    title: "Software Engineer Roadmap",
-    desc: "Follow this roadmap to become a skilled software engineer...",
+    title: "Web Developer Roadmap",
+    desc: "Master front-end, back-end, and deployment to become a full-stack web developer.",
     steps: [
-      { title: "Step 1: Foundations of Programming", desc: "Learn Python or Java..." },
-      { title: "Step 2: Data Structures and Algorithms", desc: "Master DSA..." },
-      { title: "Step 3: Web Development Basics", desc: "HTML, CSS, JS..." },
-      { title: "Step 4: Advanced Frameworks", desc: "React, Angular..." },
-      { title: "Step 5: Real Projects", desc: "Deploy apps..." }
-    ],
+      { title: "Step 1: Learn HTML, CSS & Git", desc: "Build static web pages and version control using Git/GitHub." },
+      { title: "Step 2: Master JavaScript Fundamentals", desc: "Understand variables, functions, DOM, and ES6+ features." },
+      { title: "Step 3: Learn Front-End Frameworks", desc: "Get proficient in React.js or Vue.js." },
+      { title: "Step 4: Responsive Design & Accessibility", desc: "Build mobile-friendly, accessible interfaces using Flexbox, Grid, ARIA." },
+      { title: "Step 5: Learn Backend Development", desc: "Pick Node.js/Express and connect with databases like MongoDB or PostgreSQL." },
+      { title: "Step 6: Authentication & Security", desc: "Implement login, JWT, HTTPS, and data validation." },
+      { title: "Step 7: APIs & REST/GraphQL", desc: "Build and consume RESTful APIs or GraphQL APIs." },
+      { title: "Step 8: DevOps & Deployment", desc: "Deploy apps using Vercel, Netlify, or Docker on cloud platforms." },
+      { title: "Step 9: Build Full Projects", desc: "Create and deploy full-stack apps like blog, e-commerce, or portfolio." }
+    ]
   },
   "data-scientist": {
     title: "Data Scientist Roadmap",
-    desc: "Learn data collection, analysis, visualization, and ML to become a Data Scientist.",
+    desc: "Analyze, model, and visualize data to drive insights and decisions.",
     steps: [
-      { title: "Step 1: Learn Python & SQL", desc: "Get hands-on with data-oriented languages." },
-      { title: "Step 2: Statistics & Probability", desc: "Understand core statistical principles." },
-      { title: "Step 3: Data Visualization", desc: "Use tools like Matplotlib, Seaborn, PowerBI." },
-      { title: "Step 4: Machine Learning Basics", desc: "Supervised and unsupervised ML." },
-      { title: "Step 5: Real Projects & Deployment", desc: "Kaggle, Flask APIs, Streamlit dashboards." }
-    ],
+      { title: "Step 1: Learn Python & Data Libraries", desc: "Use Pandas, NumPy, and Jupyter notebooks." },
+      { title: "Step 2: Master SQL", desc: "Query structured data efficiently using SQL." },
+      { title: "Step 3: Data Cleaning & Preprocessing", desc: "Handle missing values, outliers, and scaling." },
+      { title: "Step 4: Exploratory Data Analysis (EDA)", desc: "Use data visualization to find patterns with matplotlib, seaborn." },
+      { title: "Step 5: Learn Statistics & Probability", desc: "Understand distributions, hypothesis testing, p-values." },
+      { title: "Step 6: Machine Learning Fundamentals", desc: "Apply regression, classification, clustering with scikit-learn." },
+      { title: "Step 7: Model Evaluation & Tuning", desc: "Use confusion matrix, ROC, cross-validation, GridSearchCV." },
+      { title: "Step 8: Real-World Projects", desc: "Build dashboards, churn models, or price predictors." },
+      { title: "Step 9: Deployment & Collaboration", desc: "Deploy with Flask or Streamlit and use GitHub." }
+    ]
   },
   "ai-engineer": {
     title: "AI Engineer Roadmap",
-    desc: "Build intelligent systems by mastering machine learning, deep learning, and neural networks.",
+    desc: "Build intelligent systems with ML, deep learning, and AI models.",
     steps: [
-      { title: "Step 1: Python & Math Basics", desc: "Focus on linear algebra, calculus, stats." },
-      { title: "Step 2: ML Fundamentals", desc: "Scikit-learn, decision trees, SVM, etc." },
-      { title: "Step 3: Deep Learning", desc: "Understand neural networks, CNN, RNN." },
-      { title: "Step 4: Frameworks", desc: "Learn TensorFlow, PyTorch." },
-      { title: "Step 5: Projects & Research", desc: "Create models for real use cases or papers." }
+      { title: "Step 1: Python & Math for AI", desc: "Linear algebra, calculus, and statistics using NumPy and Matplotlib." },
+      { title: "Step 2: Classical ML Algorithms", desc: "Implement regression, k-NN, decision trees, SVM using scikit-learn." },
+      { title: "Step 3: Deep Learning Basics", desc: "Understand MLPs, backpropagation, activation functions." },
+      { title: "Step 4: Master Neural Networks", desc: "Build CNNs, RNNs using TensorFlow and PyTorch." },
+      { title: "Step 5: Learn NLP & Computer Vision", desc: "Tokenization, transformers, and image classification models." },
+      { title: "Step 6: Train & Optimize Models", desc: "Use GPUs, loss functions, optimizers like Adam/SGD." },
+      { title: "Step 7: AI Ethics & Explainability", desc: "Understand fairness, bias, and model interpretability." },
+      { title: "Step 8: Build AI Projects", desc: "Projects like image captioning, chatbots, or recommender systems." },
+      { title: "Step 9: Production & MLOps", desc: "Deploy AI models using Docker, FastAPI, and CI/CD." }
     ]
   },
   "product-manager": {
     title: "Product Manager Roadmap",
-    desc: "Lead product strategy, user research, and feature delivery.",
+    desc: "Drive product vision, strategy, and execution across teams.",
     steps: [
-      { title: "Step 1: Understand Product Lifecycle", desc: "Learn ideation to sunset phases." },
-      { title: "Step 2: Market Research", desc: "User personas, competitive analysis." },
-      { title: "Step 3: Roadmapping & Prioritization", desc: "Jira, Trello, MoSCoW method." },
-      { title: "Step 4: Cross-functional Collaboration", desc: "Work with design, dev, and sales teams." },
-      { title: "Step 5: Data-driven Decisions", desc: "Analytics tools, KPIs, and A/B testing." }
+      { title: "Step 1: Understand Product Fundamentals", desc: "Learn about product lifecycle and Agile/Scrum methodologies." },
+      { title: "Step 2: Market & User Research", desc: "Conduct surveys, interviews, and build personas." },
+      { title: "Step 3: Define Vision & Strategy", desc: "Write vision statements, roadmaps, and OKRs." },
+      { title: "Step 4: Prioritization Frameworks", desc: "Use MoSCoW, RICE, or Kano models." },
+      { title: "Step 5: Writing Requirements", desc: "Create user stories and PRDs (Product Requirement Docs)." },
+      { title: "Step 6: Work with Cross-Functional Teams", desc: "Collaborate with design, engineering, and marketing." },
+      { title: "Step 7: Measure & Improve", desc: "Define KPIs and use tools like Mixpanel or Amplitude." },
+      { title: "Step 8: Launch & Feedback Loops", desc: "Plan releases and iterate based on user input." },
+      { title: "Step 9: Build a PM Portfolio", desc: "Showcase case studies and product decisions." }
     ]
   },
   "ux-ui-designer": {
     title: "UX/UI Designer Roadmap",
-    desc: "Design beautiful and user-friendly digital experiences.",
+    desc: "Design seamless, user-centric digital interfaces.",
     steps: [
-      { title: "Step 1: Design Principles", desc: "Color theory, typography, balance." },
-      { title: "Step 2: Tools & Wireframing", desc: "Figma, Adobe XD, Sketch basics." },
-      { title: "Step 3: Prototyping & User Flows", desc: "Create interactive mockups." },
-      { title: "Step 4: UX Research", desc: "Conduct user interviews, usability tests." },
-      { title: "Step 5: Portfolio & Collaboration", desc: "Build a case study portfolio, work with teams." }
+      { title: "Step 1: UX & Design Principles", desc: "Learn color theory, typography, spacing, and visual hierarchy." },
+      { title: "Step 2: Research & Empathy", desc: "Conduct user interviews, create personas and user journeys." },
+      { title: "Step 3: Wireframing & Prototyping", desc: "Use tools like Figma, Sketch, Balsamiq." },
+      { title: "Step 4: Interaction Design", desc: "Design animations, transitions, and micro-interactions." },
+      { title: "Step 5: UI Design Systems", desc: "Create reusable components and follow design tokens." },
+      { title: "Step 6: Usability Testing", desc: "Conduct A/B tests, card sorting, and feedback sessions." },
+      { title: "Step 7: Accessibility in Design", desc: "Follow WCAG, contrast ratios, keyboard navigation." },
+      { title: "Step 8: Collaborating with Developers", desc: "Use handoff tools like Zeplin, Figma Inspect, and version control." },
+      { title: "Step 9: Portfolio Projects", desc: "Design mobile and web apps, document your design process." }
     ]
   },
   "digital-marketer": {
     title: "Digital Marketer Roadmap",
-    desc: "Master digital channels to promote brands and convert users.",
+    desc: "Grow brands using SEO, content, social, and paid media.",
     steps: [
-      { title: "Step 1: Marketing Fundamentals", desc: "4Ps, buyer journey, funnels." },
-      { title: "Step 2: SEO & SEM", desc: "Google Ads, keyword research, backlinks." },
-      { title: "Step 3: Social Media Marketing", desc: "Instagram, LinkedIn, content strategy." },
-      { title: "Step 4: Email Marketing & Automation", desc: "Mailchimp, drip campaigns." },
-      { title: "Step 5: Analytics & Conversion Optimization", desc: "Google Analytics, A/B testing." }
+      { title: "Step 1: Marketing Fundamentals", desc: "Understand marketing funnels, 4Ps, customer journey." },
+      { title: "Step 2: Content Marketing", desc: "Blogging, copywriting, and content strategy." },
+      { title: "Step 3: SEO & SEM", desc: "Keyword research, Google Ads, technical SEO." },
+      { title: "Step 4: Social Media Strategy", desc: "Platform targeting, campaigns, and analytics." },
+      { title: "Step 5: Email Marketing & CRM", desc: "Mailchimp, automation, segmentation." },
+      { title: "Step 6: Web Analytics", desc: "Use Google Analytics, Tag Manager, heatmaps." },
+      { title: "Step 7: Paid Advertising", desc: "Facebook Ads, LinkedIn Ads, ROAS measurement." },
+      { title: "Step 8: Conversion Optimization", desc: "A/B testing, landing page design, user flow analysis." },
+      { title: "Step 9: Digital Marketing Projects", desc: "Run campaigns and build a portfolio with results." }
     ]
   }
 };
-
-// Step subcomponent
-const RoadmapStep = ({ idx, step, checked, onToggle }) => (
-  <React.Fragment>
-    <div className="flex flex-col items-center gap-1 pt-3">
-      {/* <input
-        type="checkbox"
-        checked={checked}
-        onChange={() => onToggle(idx)}
-        className="w-5 h-5 accent-green-600 cursor-pointer"
-      /> */}
-      <div className="w-[1.5px] bg-[#dbe0e6] h-2 grow"></div>
-    </div>
-    <div className="flex flex-col py-3">
-      <p className="text-[#111418] text-base font-medium">{step.title}</p>
-      <p className="text-[#60758a] text-sm">{step.desc}</p>
-    </div>
-  </React.Fragment>
-);
 
 const CareerPathDetails = () => {
   const { careerId } = useParams();
@@ -106,30 +112,35 @@ const CareerPathDetails = () => {
   const toggleSave = () => setIsSaved((prev) => !prev);
 
   const career = careerData[careerId];
-  if (!career) return <div className="text-center py-10">No roadmap found.</div>;
+  if (!career)
+    return <div className="text-center py-10">No roadmap found.</div>;
 
   return (
-    <div className="px-40 flex flex-1 justify-center py-5">
-      <div className="layout-content-container flex flex-col max-w-[960px] flex-1">
+    <div className="container mx-auto px-4 sm:px-6 lg:px-40 flex justify-center py-5">
+      <div className="flex flex-col max-w-[960px] w-full">
         {/* Header */}
-        <div className="flex justify-between items-start gap-3 p-4">
-          <div className="flex flex-col gap-2">
-            <p className="text-[#111418] text-[32px] font-bold leading-tight">{career.title}</p>
-            <p className="text-[#60758a] text-sm font-normal">{career.desc}</p>
+        <div className="flex flex-col sm:flex-row justify-between items-start gap-4 p-4">
+          <div>
+            <p className="text-[#111418] text-2xl sm:text-3xl font-bold leading-tight">
+              {career.title}
+            </p>
+            <p className="text-[#60758a] text-sm sm:text-base font-normal mt-1 max-w-[600px]">
+              {career.desc}
+            </p>
           </div>
           <button
             onClick={toggleSave}
-            className={`text-sm px-4 py-2 rounded-md border ${
+            className={`text-sm sm:text-base px-4 py-2 rounded-md border transition-colors duration-200 ${
               isSaved
-                ? "bg-green-100 text-green-700 border-green-500"
-                : "bg-gray-100 text-gray-600 border-gray-300"
+                ? "bg-green-100 text-green-700 border-green-500 hover:bg-green-200 focus:outline-none focus:ring-2 focus:ring-green-400"
+                : "bg-gray-100 text-gray-600 border-gray-300 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-400"
             }`}
           >
             {isSaved ? "Unsave Roadmap" : "Save Roadmap"}
           </button>
         </div>
         {/* Steps */}
-        <div className="grid grid-cols-[40px_1fr] gap-x-2 px-4">
+        <div className="grid grid-cols-[40px_1fr] gap-x-2 gap-y-4 px-4 pb-8 sm:gap-y-6">
           {career.steps.map((step, idx) => (
             <RoadmapStep
               key={idx}

@@ -69,7 +69,7 @@ const Navbar = () => {
           ) : (
             <div className="flex gap-2">
               <Link
-                to="/signup"
+                to="/register"
                 className="h-10 px-4 rounded-lg bg-[#0c7ff2] text-white text-sm font-bold flex items-center justify-center"
               >
                 Sign Up

@@ -2,9 +2,8 @@ import { Link } from "react-router-dom";
 import JourneyToSuccess from "../components/JourneyToSuccess";
 import SuccessStories from "../components/SuccessStories";
 import GettingStarted from "../components/GettingStarted";
-import image from "../assets/HImage.jpg"; // Adjust the import path as necessary
+import image from "../assets/HImage.jpg";
 
-// CTA buttons data
 const ctaButtons = [
   {
     label: "Explore Paths",
@@ -15,7 +14,7 @@ const ctaButtons = [
   {
     label: "Find a Mentor",
     link: "/mentorship",
-    bg: "bg-[#f0f2f5]",
+    bg: "bg-white",
     text: "text-[#111418]",
   },
 ];
@@ -23,40 +22,44 @@ const ctaButtons = [
 const Home = () => {
   return (
     <div>
-      <div className="px-4 sm:px-6 lg:px-40 flex flex-1 justify-center py-5">
-        <div className="layout-content-container flex flex-col max-w-[960px] flex-1">
-          <div className="@container">
-            <div className="@[480px]:p-4">
-              <div
-                className="flex min-h-[480px] flex-col gap-6 bg-cover bg-center bg-no-repeat @[480px]:gap-8 @[480px]:rounded-lg items-center justify-center p-4"
-                // style={{
-                //   backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.3)), url(${image})`,
-                // }}
-              >
-                {/* Hero Text */}
-                <div className="flex flex-col gap-2 text-center pt-20">
-                  <h1 className="text-black text-4xl font-black leading-tight tracking-[-0.033em] @[480px]:text-5xl @[480px]:font-black @[480px]:leading-tight @[480px]:tracking-[-0.033em]">
-                    Discover Your Ideal Career Path
-                  </h1>
-                  <h2 className="text-black text-sm font-normal leading-normal @[480px]:text-base @[480px]:font-normal @[480px]:leading-normal">
-                    PathFinder helps students explore personalized career paths, follow curated skill roadmaps, and connect with mentors.
-                  </h2>
-                </div>
-                {/* CTA Buttons - mapped */}
-                <div className="flex-wrap gap-3 flex justify-center">
-                  {ctaButtons.map((btn, index) => (
-                    <Link
-                      key={index}
-                      to={btn.link}
-                      className={`flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 @[480px]:h-12 @[480px]:px-5 ${btn.bg} ${btn.text} text-sm font-bold leading-normal tracking-[0.015em] @[480px]:text-base @[480px]:font-bold @[480px]:leading-normal @[480px]:tracking-[0.015em]`}
-                    >
-                      <span className="truncate">{btn.label}</span>
-                    </Link>
-                  ))}
-                </div>
+      <div className="container mx-auto px-4 sm:px-6 lg:px-40 flex justify-center py-6">
+        <div className="flex flex-col max-w-[960px] w-full">
+
+          {/* Hero Section - Split Layout */}
+          <div className="flex flex-col md:flex-row items-center bg-white rounded-lg overflow-hidden min-h-[60vh]">
+            
+            {/* Image section */}
+            <div className="w-full md:w-1/2 flex-shrink-0">
+              <img
+                src={image}
+                alt="Career Path"
+                className="w-full h-[300px] md:h-full object-cover"
+              />
+            </div>
+
+            {/* Text Section */}
+            <div className="w-full md:w-1/2 flex flex-col items-center justify-center text-center px-6 py-10">
+              <h1 className="text-[#0c7ff2] text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight mb-4">
+                Discover Your Ideal Career Path
+              </h1>
+              <p className="text-[#111418] text-base sm:text-lg font-light leading-relaxed mb-8">
+                PathFinder helps students explore personalized career paths, follow curated skill roadmaps, and connect with mentors.
+              </p>
+              <div className="flex flex-wrap gap-4 justify-center">
+                {ctaButtons.map((btn, index) => (
+                  <Link
+                    key={index}
+                    to={btn.link}
+                    className={`flex min-w-[120px] sm:min-w-[160px] cursor-pointer items-center justify-center rounded-lg h-12 px-6 font-semibold transition-colors duration-300 ${btn.bg} ${btn.text} hover:opacity-90`}
+                  >
+                    <span className="truncate">{btn.label}</span>
+                  </Link>
+                ))}
               </div>
             </div>
           </div>
+
+          {/* Other sections */}
           <JourneyToSuccess />
           <SuccessStories />
           <GettingStarted />

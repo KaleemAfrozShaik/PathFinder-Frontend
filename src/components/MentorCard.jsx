@@ -27,7 +27,7 @@ const MentorCard = ({ mentor }) => {
       default:
         return (
           <button
-            className="flex w-fit items-center justify-center rounded-lg h-8 px-4 bg-[#f0f2f5] text-[#111418] text-sm font-medium"
+            className="flex w-fit items-center justify-center rounded-lg h-8 px-4 bg-green-400 text-[#111418] text-sm font-medium"
             onClick={() => navigate(`/mentorship/request/${mentor.id}`)}
           >
             Request Session

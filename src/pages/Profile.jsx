@@ -7,8 +7,7 @@ import { AuthContext } from '../context/AuthContext';
 const Profile = () => {
   const [savedRoadmaps, setSavedRoadmaps] = useState([]);
   const navigate = useNavigate();
-
-  const { user, setUser } = useContext(AuthContext); // ✅ consume global user
+  const { user, setUser } = useContext(AuthContext);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -16,7 +15,7 @@ const Profile = () => {
         const res = await axios.get("http://localhost:8000/api/v1/users/me", {
           withCredentials: true,
         });
-        setUser(res.data.data); // ✅ set global user
+        setUser(res.data.data);
       } catch (err) {
         console.error("Error fetching user", err);
         navigate("/login");
@@ -43,7 +42,7 @@ const Profile = () => {
       await axios.post("http://localhost:8000/api/v1/users/logout", {}, {
         withCredentials: true,
       });
-      setUser(null); 
+      setUser(null);
       navigate("/login");
     } catch (err) {
       alert("Logout failed");
@@ -51,53 +50,68 @@ const Profile = () => {
     }
   };
 
-  if (!user) return <div className="p-10 text-center text-gray-600">Loading...</div>;
+  if (!user)
+    return (
+      <div className="p-10 text-center text-gray-600">
+        Loading profile...
+      </div>
+    );
 
   return (
-    <div className="px-40 flex flex-1 justify-center py-5">
-      <div className="layout-content-container flex flex-col max-w-[960px] flex-1">
-        <div className="flex p-4">
-          <div className="flex w-full flex-col gap-4 sm:flex-row sm:justify-between sm:items-center">
-            <div className="flex gap-4">
-              <img
-                src={user.profilePicture || "https://profilePictures.githubusercontent.com/u/17099752?v=4"}
-                alt="Profile"
-                className="w-24 h-24 rounded-full border-2"
-              />
-              <div>
-                <h2 className="text-2xl font-semibold">{user.name}</h2>
-                <p className="text-gray-600">{user.email}</p>
-                <p className="text-gray-500 text-sm">{user.bio || "No bio added"}</p>
-              </div>
-            </div>
-            <div className="flex gap-4">
-              <Link to="/edit-profile" className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md">
-                Edit Profile
-              </Link>
-              <button
-                onClick={handleLogout}
-                className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md"
-              >
-                Logout
-              </button>
+    <main className="container mx-auto px-4 sm:px-6 lg:px-40 py-8 flex justify-center">
+      <div className="w-full max-w-[960px] flex flex-col gap-8">
+        {/* Profile Header */}
+        <section className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 p-4 bg-white rounded-lg shadow-md">
+          <div className="flex items-center gap-6 flex-wrap">
+            <img
+              src={user.profilePicture || "https://avatars.dicebear.com/api/initials/" + encodeURIComponent(user.name) + ".svg"}
+              alt={`${user.name} profile`}
+              className="w-24 h-24 rounded-full border-2 border-blue-500 object-cover"
+              onError={(e) => {
+                e.currentTarget.onerror = null;
+                e.currentTarget.src = "https://avatars.dicebear.com/api/initials/default.svg";
+              }}
+            />
+            <div className="min-w-0">
+              <h2 className="text-2xl font-semibold text-gray-900 truncate">{user.name}</h2>
+              <p className="text-gray-600 truncate">{user.email}</p>
+              <p className="text-gray-500 text-sm mt-1">{user.bio || "No bio added"}</p>
             </div>
           </div>
-        </div>
 
-        <hr className="my-4" />
+          <div className="flex gap-4 flex-wrap">
+            <Link
+              to="/edit-profile"
+              className="bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 text-white px-5 py-2 rounded-md transition text-center"
+            >
+              Edit Profile
+            </Link>
+            <button
+              onClick={handleLogout}
+              className="bg-red-600 hover:bg-red-700 focus:ring-4 focus:ring-red-300 text-white px-5 py-2 rounded-md transition"
+            >
+              Logout
+            </button>
+          </div>
+        </section>
 
-        <h3 className="text-xl font-semibold mb-4">Saved Roadmaps</h3>
-        <div className="flex flex-wrap gap-4">
+        <hr className="border-gray-200" />
+
+        {/* Saved Roadmaps */}
+        <section>
+          <h3 className="text-xl font-semibold mb-6 text-gray-900">Saved Roadmaps</h3>
           {savedRoadmaps.length > 0 ? (
-            savedRoadmaps.map((roadmap) => (
-              <RoadmapCard key={roadmap._id} roadmap={roadmap} />
-            ))
+            <div className="flex flex-wrap gap-6">
+              {savedRoadmaps.map((roadmap) => (
+                <RoadmapCard key={roadmap._id} roadmap={roadmap} />
+              ))}
+            </div>
           ) : (
             <p className="text-gray-500">No saved roadmaps yet.</p>
           )}
-        </div>
+        </section>
       </div>
-    </div>
+    </main>
   );
 };
 

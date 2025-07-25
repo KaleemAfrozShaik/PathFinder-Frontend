@@ -23,7 +23,7 @@ const Login = () => {
 
   useEffect(() => {
     if (user) {
-      navigate("/"); // redirect to homepage
+      navigate("/");
     }
   }, [user, navigate]);
 

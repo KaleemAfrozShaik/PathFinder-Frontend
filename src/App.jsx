@@ -14,6 +14,7 @@ import Profile from './pages/Profile';
 import ChatPlaceholder from './pages/ChatPlaceholder';
 import EditProfile from './components/EditProfile';
 import RegisterMentor from './pages/RegisterMentor';
+import ProtectedRoute from './components/ProtectedRoute';
 
 
 const App = () => {
@@ -21,13 +22,13 @@ const App = () => {
     <Routes>
       <Route element={<Layout />}>
         <Route path="/" element={<Home />} />
-        <Route path="/career-paths" element={<CareerPaths />} />
-        <Route path="/career-paths/:careerId" element={<CareerPathDetails />} />
-        <Route path="/mentorship" element={<Mentorship />} />
-        <Route path="/register-mentor" element={<RegisterMentor />} />
-        <Route path="/profile" element={<Profile/>} />
-        <Route path="/edit-profile" element={<EditProfile />} />
-        <Route path="/mentorship/request/:mentorId" element={<ChatPlaceholder />} />
+        <Route path="/career-paths" element={<ProtectedRoute><CareerPaths /></ProtectedRoute>} />
+        <Route path="/career-paths/:careerId" element={<ProtectedRoute><CareerPathDetails /></ProtectedRoute>} />
+        <Route path="/mentorship" element={<ProtectedRoute><Mentorship /></ProtectedRoute>} />
+        <Route path="/register-mentor" element={<ProtectedRoute><RegisterMentor /></ProtectedRoute>} />
+        <Route path="/profile" element={<ProtectedRoute><Profile/></ProtectedRoute>} />
+        <Route path="/edit-profile" element={<ProtectedRoute><EditProfile /></ProtectedRoute>} />
+        <Route path="/mentorship/request/:mentorId" element={<ProtectedRoute><ChatPlaceholder /></ProtectedRoute>} />
         <Route path="/about" element={<AboutUs />} />
         <Route path="/contact" element={<ContactUs />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
