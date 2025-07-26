@@ -14,7 +14,7 @@ const RegisterMentor = () => {
     e.preventDefault();
     try {
       const res = await axios.put(
-        `${BACKEND_URL}/users/update-role`,
+        `${BACKEND_URL}/api/v1/users/update-role`,
         { role: "mentor", bio },
         { withCredentials: true }
       );

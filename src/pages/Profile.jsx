@@ -14,7 +14,7 @@ const Profile = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await axios.get(`${BACKEND_URL}/users/me`, {
+        const res = await axios.get(`${BACKEND_URL}/api/v1/users/me`, {
           withCredentials: true,
         });
         setUser(res.data.data);
@@ -26,7 +26,7 @@ const Profile = () => {
 
     const fetchSavedPaths = async () => {
       try {
-        const res = await axios.get(`${BACKEND_URL}/users/saved-paths`, {
+        const res = await axios.get(`${BACKEND_URL}/api/v1/users/saved-paths`, {
           withCredentials: true,
         });
         setSavedRoadmaps(res.data.data || []);
@@ -41,7 +41,7 @@ const Profile = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post(`${BACKEND_URL}/users/logout`, {}, {
+      await axios.post(`${BACKEND_URL}/api/v1/users/logout`, {}, {
         withCredentials: true,
       });
       setUser(null);
