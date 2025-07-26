@@ -64,12 +64,16 @@ const Profile = () => {
         <section className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 p-4 bg-white rounded-lg shadow-md">
           <div className="flex items-center gap-6 flex-wrap">
             <img
-              src={user.profilePicture || "https://avatars.dicebear.com/api/initials/" + encodeURIComponent(user.name) + ".svg"}
+              src={
+                user.profilePicture ||
+                `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(user.name)}`
+              }
               alt={`${user.name} profile`}
               className="w-24 h-24 rounded-full border-2 border-blue-500 object-cover"
               onError={(e) => {
                 e.currentTarget.onerror = null;
-                e.currentTarget.src = "https://avatars.dicebear.com/api/initials/default.svg";
+                e.currentTarget.src =
+                  "https://api.dicebear.com/7.x/initials/svg?seed=Default";
               }}
             />
             <div className="min-w-0">
