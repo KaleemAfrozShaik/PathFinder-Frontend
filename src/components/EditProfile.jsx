@@ -15,9 +15,12 @@ const EditProfile = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await axios.get("http://localhost:8000/api/v1/users/me", {
-          withCredentials: true,
-        });
+        const res = await axios.get(
+          `${import.meta.env.VITE_BACKEND_URL}/api/v1/users/me`,
+          {
+            withCredentials: true,
+          }
+        );
         const { name, bio, profilePicture } = res.data.data;
         setFormData({ name, bio, profilePicture });
         setPreview(profilePicture);
@@ -52,7 +55,7 @@ const EditProfile = () => {
       }
 
       await axios.put(
-        "http://localhost:8000/api/v1/users/update-profile",
+        `${import.meta.env.VITE_BACKEND_URL}/api/v1/users/update-profile`,
         data,
         {
           withCredentials: true,
@@ -84,6 +87,10 @@ const EditProfile = () => {
               }
               alt="Profile Preview"
               className="w-24 h-24 rounded-full object-cover cursor-pointer border"
+              onError={(e) => {
+                e.target.src =
+                  "https://cdn-icons-png.flaticon.com/512/3177/3177440.png";
+              }}
             />
           </label>
           <input
@@ -120,7 +127,9 @@ const EditProfile = () => {
 
         <button
           type="submit"
-          className={`w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition ${isSaving ? "opacity-60 cursor-not-allowed" : ""}`}
+          className={`w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition ${
+            isSaving ? "opacity-60 cursor-not-allowed" : ""
+          }`}
         >
           {isSaving ? "Saving..." : "Save Changes"}
         </button>

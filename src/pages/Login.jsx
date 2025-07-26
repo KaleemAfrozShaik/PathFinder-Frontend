@@ -10,6 +10,8 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const { user, fetchUser } = useAuth();
 
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
   useEffect(() => {
     if (user) {
       navigate("/");
@@ -20,7 +22,7 @@ const Login = () => {
     setLoading(true);
     try {
       await axios.post(
-        "http://localhost:8000/api/v1/users/login",
+        `${BACKEND_URL}/api/v1/users/login`,
         { email, password },
         { withCredentials: true }
       );
@@ -35,7 +37,7 @@ const Login = () => {
   };
 
   const handleGoogleLogin = () => {
-    window.location.href = "http://localhost:8000/api/v1/auth/google";
+    window.location.href = `${BACKEND_URL}/api/v1/auth/google`;
   };
 
   return (

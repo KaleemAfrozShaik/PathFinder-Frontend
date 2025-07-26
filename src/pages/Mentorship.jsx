@@ -13,7 +13,7 @@ const Mentorship = () => {
     const fetchMentors = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:8000/api/v1/users/mentors",
+          `${import.meta.env.VITE_BACKEND_URL}/api/v1/users/mentors`,
           { withCredentials: true }
         );
         setMentors(res.data.data);

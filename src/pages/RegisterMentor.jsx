@@ -8,11 +8,13 @@ const RegisterMentor = () => {
   const [bio, setBio] = useState(user?.bio || "");
   const navigate = useNavigate();
 
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
       const res = await axios.put(
-        "http://localhost:8000/api/v1/users/update-role",
+        `${BACKEND_URL}/users/update-role`,
         { role: "mentor", bio },
         { withCredentials: true }
       );
@@ -21,6 +23,7 @@ const RegisterMentor = () => {
       navigate("/profile");
     } catch (err) {
       console.error("Mentor registration failed:", err);
+      alert("Something went wrong. Please try again.");
     }
   };
 
@@ -33,8 +36,12 @@ const RegisterMentor = () => {
           placeholder="Write a short mentor bio"
           value={bio}
           onChange={(e) => setBio(e.target.value)}
+          rows={5}
         />
-        <button className="bg-blue-600 text-white py-2 rounded" type="submit">
+        <button
+          className="bg-blue-600 hover:bg-blue-700 text-white py-2 rounded transition"
+          type="submit"
+        >
           Submit & Become Mentor
         </button>
       </form>

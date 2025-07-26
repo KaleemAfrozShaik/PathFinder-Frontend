@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
 const Signup = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -17,9 +19,7 @@ const Signup = () => {
   const [preview, setPreview] = useState(null);
 
   useEffect(() => {
-    if (user) {
-      navigate("/");
-    }
+    if (user) navigate("/");
   }, [user, navigate]);
 
   const handleChange = (e) => {
@@ -27,7 +27,7 @@ const Signup = () => {
   };
 
   const handleGoogleLogin = () => {
-    window.open("http://localhost:8000/api/v1/auth/google", "_self");
+    window.open(`${BACKEND_URL}/api/v1/auth/google`, "_self");
   };
 
   const handleFileChange = (e) => {
@@ -53,14 +53,15 @@ const Signup = () => {
         payload.append("profilePicture", profilePicture);
       }
 
-      const res = await axios.post("http://localhost:8000/api/v1/users/register", payload, {
+      const res = await axios.post(`${BACKEND_URL}/api/v1/users/register`, payload, {
         headers: { "Content-Type": "multipart/form-data" },
         withCredentials: true,
       });
-      navigate("/login");
+
       console.log("Signup successful!");
+      navigate("/login");
     } catch (err) {
-      console.log(err);
+      console.error(err);
       alert(err?.response?.data?.message || "Something went wrong");
     }
   };
@@ -75,15 +76,8 @@ const Signup = () => {
           Join us to start your career journey
         </p>
 
-        {/* Google Button integrated here */}
         <button onClick={handleGoogleLogin} className="flex w-full cursor-pointer items-center justify-center rounded-lg h-10 px-4 bg-[#f0f2f5] text-[#111418] gap-2 text-sm font-bold mb-3">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="20px"
-            height="20px"
-            fill="currentColor"
-            viewBox="0 0 256 256"
-          >
+          <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
             <path d="M224,128a96,96,0,1,1-21.95-61.09,8,8,0,1,1-12.33,10.18A80,80,0,1,0,207.6,136H128a8,8,0,0,1,0-16h88A8,8,0,0,1,224,128Z" />
           </svg>
           <span>Continue with Google</span>
@@ -94,51 +88,22 @@ const Signup = () => {
         <form onSubmit={handleSubmit} className="flex flex-col gap-4 px-4" encType="multipart/form-data">
           <label className="flex flex-col w-full">
             <p className="text-[#111418] text-base font-medium pb-2">Name</p>
-            <input
-              type="text"
-              name="fullName"
-              value={formData.fullName}
-              onChange={handleChange}
-              placeholder="Enter your name"
-              className="rounded-lg border border-[#dbe0e6] h-14 px-4"
-              required
-            />
+            <input type="text" name="fullName" value={formData.fullName} onChange={handleChange} placeholder="Enter your name" className="rounded-lg border border-[#dbe0e6] h-14 px-4" required />
           </label>
 
           <label className="flex flex-col w-full">
             <p className="text-[#111418] text-base font-medium pb-2">Email</p>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="Enter your email"
-              className="rounded-lg border border-[#dbe0e6] h-14 px-4"
-              required
-            />
+            <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Enter your email" className="rounded-lg border border-[#dbe0e6] h-14 px-4" required />
           </label>
 
           <label className="flex flex-col w-full">
             <p className="text-[#111418] text-base font-medium pb-2">Password</p>
-            <input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              placeholder="Create a password"
-              className="rounded-lg border border-[#dbe0e6] h-14 px-4"
-              required
-            />
+            <input type="password" name="password" value={formData.password} onChange={handleChange} placeholder="Create a password" className="rounded-lg border border-[#dbe0e6] h-14 px-4" required />
           </label>
 
           <label className="flex flex-col w-full">
             <p className="text-[#111418] text-base font-medium pb-2">User Type</p>
-            <select
-              name="role"
-              value={formData.role}
-              onChange={handleChange}
-              className="rounded-lg border border-[#dbe0e6] h-14 px-4"
-            >
+            <select name="role" value={formData.role} onChange={handleChange} className="rounded-lg border border-[#dbe0e6] h-14 px-4">
               <option value="student">Student</option>
               <option value="mentor">Mentor</option>
             </select>
@@ -146,47 +111,19 @@ const Signup = () => {
 
           <label className="flex flex-col w-full">
             <p className="text-[#111418] text-base font-medium pb-2">Short Bio</p>
-            <textarea
-              name="bio"
-              value={formData.bio}
-              onChange={handleChange}
-              rows={4}
-              maxLength={500}
-              placeholder="Tell us something about yourself"
-              className="rounded-lg border border-[#dbe0e6] px-4 py-2 resize-none"
-            />
+            <textarea name="bio" value={formData.bio} onChange={handleChange} rows={4} maxLength={500} placeholder="Tell us something about yourself" className="rounded-lg border border-[#dbe0e6] px-4 py-2 resize-none" />
           </label>
 
           <label className="flex flex-col w-full">
             <p className="text-[#111418] text-base font-medium pb-2">Profile Picture</p>
-            <input
-              type="file"
-              name="profilePicture"
-              accept="image/*"
-              onChange={handleFileChange}
-              className="text-sm"
-            />
-            {preview && (
-              <img
-                src={preview}
-                alt="Preview"
-                className="w-24 h-24 mt-2 rounded-full object-cover border"
-              />
-            )}
+            <input type="file" name="profilePicture" accept="image/*" onChange={handleFileChange} className="text-sm" />
+            {preview && <img src={preview} alt="Preview" className="w-24 h-24 mt-2 rounded-full object-cover border" />}
           </label>
 
-          <button
-            type="submit"
-            className="w-full h-10 rounded-lg bg-[#0c7ff2] text-white font-bold text-sm"
-          >
-            Sign up
-          </button>
+          <button type="submit" className="w-full h-10 rounded-lg bg-[#0c7ff2] text-white font-bold text-sm">Sign up</button>
         </form>
 
-        <Link
-          to="/login"
-          className="text-[#60758a] text-sm text-center underline px-4 pt-2 cursor-pointer"
-        >
+        <Link to="/login" className="text-[#60758a] text-sm text-center underline px-4 pt-2 cursor-pointer">
           Already have an account? Sign in
         </Link>
       </div>

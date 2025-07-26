@@ -1,6 +1,9 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
 
+
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
 export const AuthContext = createContext(); 
 
 export const AuthProvider = ({ children }) => {
@@ -8,7 +11,7 @@ export const AuthProvider = ({ children }) => {
 
   const fetchUser = async () => {
     try {
-      const res = await axios.get("http://localhost:8000/api/v1/users/me", {
+      const res = await axios.get(`${BACKEND_URL}/api/v1/users/me`, {
         withCredentials: true,
       });
       setUser(res.data?.data || null);

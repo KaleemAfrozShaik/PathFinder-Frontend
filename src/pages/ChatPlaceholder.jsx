@@ -1,8 +1,8 @@
-// ChatPlaceholder.jsx
-
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 const ChatPlaceholder = () => {
   const { mentorId } = useParams();
@@ -12,7 +12,7 @@ const ChatPlaceholder = () => {
   useEffect(() => {
     const fetchMentor = async () => {
       try {
-        const res = await axios.get(`http://localhost:8000/api/v1/users/mentor/${mentorId}`);
+        const res = await axios.get(`${BACKEND_URL}/api/v1/users/mentor/${mentorId}`);
         setMentor(res.data.data);
       } catch (err) {
         console.error("Failed to fetch mentor", err);

@@ -9,10 +9,12 @@ const Profile = () => {
   const navigate = useNavigate();
   const { user, setUser } = useContext(AuthContext);
 
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await axios.get("http://localhost:8000/api/v1/users/me", {
+        const res = await axios.get(`${BACKEND_URL}/users/me`, {
           withCredentials: true,
         });
         setUser(res.data.data);
@@ -24,7 +26,7 @@ const Profile = () => {
 
     const fetchSavedPaths = async () => {
       try {
-        const res = await axios.get("http://localhost:8000/api/v1/users/saved-paths", {
+        const res = await axios.get(`${BACKEND_URL}/users/saved-paths`, {
           withCredentials: true,
         });
         setSavedRoadmaps(res.data.data || []);
@@ -35,11 +37,11 @@ const Profile = () => {
 
     fetchUser();
     fetchSavedPaths();
-  }, [navigate, setUser]);
+  }, [navigate, setUser, BACKEND_URL]);
 
   const handleLogout = async () => {
     try {
-      await axios.post("http://localhost:8000/api/v1/users/logout", {}, {
+      await axios.post(`${BACKEND_URL}/users/logout`, {}, {
         withCredentials: true,
       });
       setUser(null);
