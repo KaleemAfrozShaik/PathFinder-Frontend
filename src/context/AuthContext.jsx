@@ -8,7 +8,6 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-
   const fetchUser = async () => {
     try {
       const res = await axios.get(`${BACKEND_URL}/api/v1/users/me`, {
