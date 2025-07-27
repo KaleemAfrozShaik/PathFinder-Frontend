@@ -11,14 +11,12 @@
   ],
   "rewrites": [
     {
-      "src": "/(.*)",
-      "dest": "/index.html"
-    }
-  ],
-  "routes": [
+      "source": "/api/(.*)",
+      "destination": "https://pathfinder-backend-ezlb.onrender.com/api/$1"
+    },
     {
-      "src": "/api/(.*)",
-      "destination": "/"  
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }
