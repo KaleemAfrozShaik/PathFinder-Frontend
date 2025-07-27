@@ -105,7 +105,7 @@ const Navbar = () => {
           ) : (
             <>
               <Link
-                to="/signup"
+                to="/register"
                 className="w-full text-center py-2 rounded-lg bg-[#0c7ff2] text-white text-sm font-bold"
                 onClick={() => setIsOpen(false)}
               >
